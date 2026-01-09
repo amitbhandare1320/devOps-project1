@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Success</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #89f7fe, #66a6ff);
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .message {
+        margin-top: 0;
+        opacity: 0;
+        animation: slideToCenter 1.5s ease-out forwards;
+    }
+
+    h1 {
+        color: rgb(0, 0, 0);
+        font-size: 40px;
+    }
+
+    @keyframes slideToCenter {
+        0% {
+            transform: translateY(-200px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(calc(50vh - 50px));
+            opacity: 1;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="message">
+    <h1>Successfully Logged In 🎉</h1>
+</div>
+
+</body>
+</html>

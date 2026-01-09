@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.12);
+            display: inline-block;
+            text-align: left;
+            min-width: 320px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .password-box {
+            position: relative;
+        }
+
+        .toggle-eye {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 12px;
+            color: #666;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Enter User Details</h1>
+
+{% if success %}
+<p style="color: green; font-weight: bold;">{{ success }}</p>
+{% endif %}
+
+<form method="POST" action="/save">
+
+    <label>Name:</label>
+    <input type="text" name="name" value="{{ values.name or '' }}" required>
+    {% if errors.name %}<p style="color:red">{{ errors.name }}</p>{% endif %}
+
+    <label>Age:</label>
+    <input type="number" name="age" value="{{ values.age or '' }}" required>
+    {% if errors.age %}<p style="color:red">{{ errors.age }}</p>{% endif %}
+
+    <label>Phone:</label>
+    <input type="text" name="phone" value="{{ values.phone or '' }}" required>
+    {% if errors.phone %}<p style="color:red">{{ errors.phone }}</p>{% endif %}
+
+    <label>Email:</label>
+    <input type="text" name="email" value="{{ values.email or '' }}" required>
+    {% if errors.email %}<p style="color:red">{{ errors.email }}</p>{% endif %}
+
+    <label>Password:</label>
+    <div class="password-box">
+        <input type="password" id="password" name="password" required>
+        <span class="toggle-eye" onclick="togglePassword()">👁 Show</span>
+    </div>
+    {% if errors.password %}<p style="color:red;">{{ errors.password }}</p>{% endif %}
+
+    <button type="submit">Submit</button>
+
+</form>
+
+<script>
+function togglePassword() {
+    const pwd = document.getElementById("password");
+    const eye = document.querySelector(".toggle-eye");
+
+    if (pwd.type === "password") {
+        pwd.type = "text";
+        eye.textContent = "🙈 Hide";
+    } else {
+        pwd.type = "password";
+        eye.textContent = "👁 Show";
+    }
+}
+</script>
+
+</body>
+</html>

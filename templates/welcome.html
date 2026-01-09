@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Portal</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+
+      /* Soft gradient background */
+      background: linear-gradient(135deg, #6f87e4, #c5b8ec);
+      
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 35px 40px;
+      border-radius: 18px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 16px;
+      background: #4c6ef5;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .btn:hover {
+      background: #364fc7;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Welcome to the User Information Portal</h1>
+    <p>Click below to continue to the user form.</p>
+
+    <a href="/index">
+      <button class="btn">Go To Sing-Up From </button>
+    </a>
+  </div>
+
+</body>
+</html>
