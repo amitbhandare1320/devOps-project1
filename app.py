@@ -13,12 +13,19 @@ import pymysql
 
 app = Flask(__name__)
 
+# -------------------- DB CONNECTION --------------------
+def get_connection():
+    return pymysql.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="userdb"
+    )
 
 # -------------------- WELCOME PAGE --------------------
 @app.route("/")
 def welcome():
     return render_template("welcome.html")
-
 
 # -------------------- LOGIN PAGE --------------------
 @app.route("/login", methods=["GET", "POST"])
@@ -27,18 +34,12 @@ def login():
         email = request.form["email"]
         password = request.form["password"]
 
-        con = pymysql.connect(
-            user="root",
-            password="root",
-            host="localhost",
-            database="products"
-        )
-
+        con = get_connection()
         cur = con.cursor()
-        cur.execute("SELECT password FROM user_info WHERE email=%s", (email,))
+        cur.execute("SELECT password FROM users WHERE email=%s", (email,))
         row = cur.fetchone()
+        con.close()
 
-        # check password from DB
         if row and bcrypt.checkpw(password.encode(), row[0].encode()):
             return redirect(url_for("success"))
 
@@ -46,18 +47,15 @@ def login():
 
     return render_template("login.html")
 
-
 # -------------------- SUCCESS PAGE --------------------
 @app.route("/success")
 def success():
     return render_template("success.html")
 
-
 # -------------------- USER FORM PAGE --------------------
 @app.route("/index")
 def form_page():
     return render_template("index.html", errors={}, values={}, success=None)
-
 
 # -------------------- SAVE DATA --------------------
 @app.route("/save", methods=["POST"])
@@ -92,9 +90,8 @@ def save():
     # Save to DB
     user_details(name, int(age), phone, email, password)
 
-    # Go to login page after register
     return redirect(url_for("login"))
 
-
+# -------------------- MAIN ENTRY POINT --------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
