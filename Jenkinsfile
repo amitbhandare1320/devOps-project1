@@ -1,30 +1,65 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE = "amit1320/app-demo"
+        DOCKER_TAG   = "latest"
+    }
+
     stages {
-        stage('Clone Repo') {
+
+        stage('Check Workspace') {
             steps {
-                git 'https://github.com/amitbhandare1320/devOps-project1.git'
+                sh 'pwd'
+                sh 'ls -la'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t amit1320/app-demo:latest .'
+                echo 'Building Docker image...'
+                sh """
+                docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .
+                """
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Docker Login') {
             steps {
-                sh 'docker push amit1320/app-demo:latest'
+                echo 'Logging in to Docker Hub...'
+                sh """
+                docker login -u amit1320 -p \$(cat /var/lib/jenkins/.dockerhub_pass)
+                """
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                echo 'Pushing image to Docker Hub...'
+                sh """
+                docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
+                """
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f deployment.yaml'
-                sh 'kubectl rollout restart deployment flask-app'
+                echo 'Deploying to Kubernetes...'
+                sh """
+                kubectl apply -f deployment.yaml
+                kubectl apply -f service.yaml
+                kubectl rollout status deployment/flask-app
+                """
             }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ CI/CD Pipeline completed successfully'
+        }
+        failure {
+            echo '❌ CI/CD Pipeline failed'
         }
     }
 }
