@@ -27,9 +27,9 @@ pipeline {
         stage('Docker Login') {
             steps {
                 echo 'Logging in to Docker Hub...'
-                sh """
-                docker login -u amit1320 -p \$(cat /var/lib/jenkins/.dockerhub_pass)
-                """
+                sh '''
+                docker login -u amit1320 --password-stdin < /var/lib/jenkins/.dockerhub_pass
+                '''
             }
         }
 
